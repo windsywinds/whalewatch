@@ -6,12 +6,12 @@ Users can follow @WhaleWatchNZ on twitter to receive notifications everytime a n
  https://whalewatchbeta.web.app/ 
   
   Tech Stack:
-      Reactjs
-      Tailwind CSS
-      Firebase: Firestore Database; Authentication; Cloud Functions
-      Twitter-API-V2
-      Stripe (donations only)
-
+      Reactjs 
+      Tailwind CSS 
+      Firebase: Firestore Database; Authentication; Cloud Functions 
+      Twitter-API-V2 
+      Stripe (donations only) 
+ 
 
   Future features or fixes:  
   
