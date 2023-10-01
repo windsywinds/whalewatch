@@ -6,19 +6,14 @@ Users can follow @WhaleWatchNZ on twitter to receive notifications everytime a n
  https://whalewatchbeta.web.app/ 
   
   Tech Stack:
-      Reactjs 
-      Tailwind CSS 
-      Firebase: Firestore Database; Authentication; Cloud Functions 
-      Twitter-API-V2 
-      Stripe (donations only) 
- 
+      React
+      Tailwind CSS
+      Firebase DB (Firestore + authentication)
+      Stripe (donations only)
 
   Future features or fixes:  
-  
-      Pin on map - MapBoxAPI pin feature not working correctly. Currently makes duplicate pins.          
+      Pin on map - MapBoxAPI pin feature not working correctly. Currently makes duplicate pins.  
+        
       Open in map link - make this a pop up embedded map instead of redirect to googlemaps location?  
       Pins per animal - different pin icons for each animal type, to make viewing easier on the map
-
-
-
       
