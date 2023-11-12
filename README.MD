@@ -13,19 +13,17 @@
 <div align="center">
  
 
-<h3 align="center">Mission 0</h3>
+<h3 align="center">Whale Watch NZ</h3>
 
   <p align="center">
-    
     <br />
     <a href="https://github.com/windsywinds/whalewatch/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://whalewatchbeta.web.app">View Live</a>
+    <a href="https://whalewatchbeta.web.app/">View Live</a>
     ·
-    <a href="https://github.comwindsywinds/whalewatch/issues">Report Bug</a>
+    <a href="https://github.com/windsywinds/whalewatch/issues">Report Bug</a>
     ·
-    
 </div>
 
 
