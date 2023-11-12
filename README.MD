@@ -58,7 +58,7 @@ Users can follow @WhaleWatchNZ on twitter to receive notifications everytime a n
 [vite-url]: https://vitejs.dev/
 [contributors-shield]: https://img.shields.io/github/contributors/windsywinds/whalewatch.svg?style=for-the-badge
 [contributors-url]: https://github.com/windsywinds/whalewatch/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/windsywinds/whalewatch/.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/windsywinds/whalewatch.svg?style=for-the-badge
 [forks-url]: https://github.com/windsywinds/whalewatch/network/members
 [stars-shield]: https://img.shields.io/github/stars/windsywinds/whalewatch.svg?style=for-the-badge
 [stars-url]: https://github.com/windsywinds/whalewatch/stargazers
