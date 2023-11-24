@@ -8,12 +8,11 @@ function Feedback() {
            
             <p className="text-sm mb-2 pt-2">I'd love to hear from you! If you've encountered any errors or issues while viewing, have a suggestion or just simply want to drop a comment, use the form below to send me a message!</p>
             <p className="text-sm mb-2 font-bold pt-2">If you enjoy using the app and want to help support its improvement, please consider using one of the below options!</p>
-            <p className="text-sm mb-1 font-bold pt-2"><a href="https://donate.stripe.com/00g7sM9dJbyCdmE8ww">Donate</a></p>
-            <p className="text-sm font-bold mb-1">
-            <a href="https://windsorphoto.netlify.app"  target="_blank" rel="noopener noreferrer">Buy my prints</a></p>
-            <p className="text-sm mb-1 pt-2">Or</p>
-            <p className="text-sm font-bold"><a href="https://instagram.com/windsywinds" target="blank">Follow me on instagram</a></p>
-            <p className="text-xs mb-2">(It doesn't pay the running costs, but it's still appreciated!)</p>
+            <p className="text-sm mb-1 font-bold pt-2 underline"><a href="https://www.buymeacoffee.com/windsywinds">Donate</a></p>
+            <p className="text-sm font-bold mb-1 underline"><a href="https://windsorphoto.netlify.app"  target="_blank" rel="noopener noreferrer">Buy my prints</a></p>
+            <p className="text-sm mb-1 pt-2">Or simply</p>
+            <p className="text-sm font-bold underline"><a href="https://instagram.com/windsywinds" target="blank">Follow me on instagram</a></p>
+
             </div>
             <div className="flex flex-col mb-0 mx-auto pt-5">
             
