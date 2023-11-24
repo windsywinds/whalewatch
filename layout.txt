@@ -1,1 +1,1 @@
-layout update 1 git push —set-upstream origin new_layout
+layout update 1 git push —u origin new_layout
