@@ -1,0 +1,33 @@
+{
+    "short_name": "WhaleWatch",
+    "name": "Whale Watch NZ",
+    "icons": [
+      {
+        "src": "blue-whale-icon.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      }
+    ],
+    "id": "/WWNZ.app",
+    "start_url": "/",
+    "background_color": "#0b0f51",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#0b0f51",
+    "description": "Find and submit animal sightings",
+    "screenshots": [
+      {
+        "src": "/screenshot-narrow.jpg",
+        "type": "image/jpg",
+        "sizes": "411x727",
+        "form_factor": "narrow"
+      },
+      {
+        "src": "/screenshot-wide.jpg",
+        "type": "image/jpg",
+        "sizes": "448x661",
+        "form_factor": "wide"
+      }
+    ]
+  }
+  

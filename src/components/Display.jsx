@@ -41,7 +41,7 @@ export const Display = () => {
       <div className="flex items-center justify-center flex-col text-center pt-5 pb-8 pl-10 pr-10">
         <p className="text-sm mb-2 font-bold">Latest sightings reported</p>
         <p className="text-sm md:mx-20 md:px-20">
-        All the sightings here are reported by individual users, so accuracy can't be guaranteed. Any sightings in the last 30 minutes will be shown with the time in green; however, be aware the animal may have already left the area by the time you arrive. If you do manage to spot one, help verify the sighting so others know it's genuine by clicking the 'confirm' button!
+        All the sightings here are reported by individual users, so accuracy can't be guaranteed. Any sightings in the last 30 minutes will be shown with the time in green; however, be aware the animal may have already left the area by the time you arrive. If you do manage to spot one, help verify the sighting so others know it's genuine by clicking the 'confirm' button, and this will update the time sighted! If the animal has moved on, you can submit a new entry for the new location!
         </p>
       </div>
 
