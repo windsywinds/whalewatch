@@ -83,21 +83,25 @@ export const Footer = () => {
       
   {showPrivacy && <Privacy onClose={handleClosePrivacy} />}
   
-  </div>
+  						</div>
 				<div className="flex flex-row pt-1 items-center justify-center">
-  <p className="pt-4 flex-grow flex-shrink text-center text-slate-400">
-    &copy; {new Date().getFullYear()} Sam Windsor. All rights reserved.
-  </p>
+  					<p className="pt-4 flex-grow flex-shrink text-center text-slate-400">
+    								&copy; {new Date().getFullYear()} Sam Windsor. All rights reserved.
+  					</p>
   
   
-</div>
+  
+			</div>
+<div className="flex flex-col pt-2 items-center justify-center">
+  <a href="https://www.buymeacoffee.com/windsywinds" target="_blank">
+	<img className="h-[40px] w-[160px]" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"  />
+	
+	</a>
+  </div>
 
-<div className="text-xs">
-<a href="https://www.flaticon.com/free-icons/blue-whale" title="blue whale icons">Icons by Freepik - Flaticon</a>
-
-
-
-</div>
+					<div className="text-xs">
+				<a href="https://www.flaticon.com/free-icons/blue-whale" title="blue whale icons">Icons by Freepik - Flaticon</a>
+				</div>
 
 		</div>
     )
