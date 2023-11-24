@@ -7,6 +7,14 @@ function News() {
             <div className="flex items-center justify-center flex-col text-center" >
 
             <section className="pb-5">
+            <p className="text-sm mb-1 pt-2 font-bold">Release v1.6 - 24/11/2023</p>
+            <p className="text-sm mb-1 pt-1">Changes: </p>  
+            <p className="text-sm mb-1 pt-2">Mobile Web App! <br />You can now install the app directly onto your homescreen!<br/> 
+            iOS - select the middle button that looks like a book with an arrow and scroll down until you find "Add to home screen". <br/>
+            Android - select the three dots in the top right and tap "Install app".</p>
+            </section >
+
+            <section className="pb-5">
             <p className="text-sm mb-1 pt-2 font-bold">Release v1.5 - 01/10/2023</p>
             <p className="text-sm mb-1 pt-1">Changes: </p>  
             <p className="text-sm mb-1 pt-2">Twitter alerts are active! <br />Follow <a href="https://twitter.com/WhaleWatchNZ" className="underline" target="_blank" rel="noopener noreferrer">@WhaleWatchNZ</a> on Twitter and turn on notifications to receieve push alerts to your phone when a new sighting is submitted!<br/> 

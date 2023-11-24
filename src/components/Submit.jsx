@@ -191,9 +191,9 @@ export const SubmitSightings = () => {
 
       
 
-      <form className="w-full flex flex-col items-center justify-center" onSubmit={handleSubmit}>
-        <div className="flex flex-col md:flex-col px-2 items-center justify-center">
-          <div className="flex flex-col md:flex-row justify-center items-center my-2">
+      <form className="w-full flex flex-col items-center justify-center " onSubmit={handleSubmit}>
+        <div className="flex w-[85%] flex-col md:flex-col px-2 items-center justify-center ">
+          <div className="flex flex-col md:flex-row justify-center items-center my-2 ">
             
             
             <div className="md:mr-2 mb-2 md:mb-0 ">

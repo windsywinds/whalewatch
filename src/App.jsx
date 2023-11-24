@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Auth } from './components/auth';
-import  Intro   from './components/Intro';
 import { Display } from './components/Display';
 import { SubmitSightings } from './components/Submit';
 import { NewsDropdown, FeedbackDropdown } from './components/Dropdown';
@@ -9,8 +8,6 @@ import { Footer } from './components/Footer';
 import News from './components/News';
 import Resources from './components/Resources'
 import { initializeFirebaseMessaging } from './components/firebaseMessaging';
-
-import { MobAuth } from './components/auth';
 
 
 
@@ -22,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (Notification.permission === 'granted') {
-    initializeFirebaseMessaging();
+    //initializeFirebaseMessaging();
     } else {
       console.log("Permission denied")
     }
@@ -48,10 +45,11 @@ function App() {
       setdeviceStyles("hidden");
     } else {
       // It's likely a browser
-      setdeviceStyles("bg-[#e8e9ff] w-[90%] my-4 pb-2 rounded-xl shadow-lg shadow-slate-800");
+      setdeviceStyles("bg-[#e8e9ff] w-[90%] my-4 pb-2 rounded-2xl shadow-lg shadow-slate-800");
     }
   }, []);
 
+  
 
 
   //check if user is logged in
@@ -62,12 +60,12 @@ function App() {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setIsLoggedIn(true);
     localStorage.setItem('isLoggedIn', 'true');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsLoggedIn(false);
     localStorage.setItem('isLoggedIn', 'false');
   };
@@ -80,9 +78,6 @@ function App() {
   return (
     <div className="bg-[#0b0f51] text-stone-800 min-h-screen font-inter flex flex-col items-center">
       <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-screen justify-between">
-        <div className="w-full">
-          <Auth onLogin={handleLogin} onLogout={handleLogout} />
-        </div>
         </div>
 
         <div className={deviceStyles} >
@@ -94,43 +89,10 @@ function App() {
 
 
 
-        <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-2xl my-4 shadow-lg shadow-slate-800">
-          <div className="flex flex-col sm:flex-row justify-evenly space-x-1 px-1 sm:space-x-4 my-4">
-          <button
-              className={`px-4 py-2 rounded-lg ${
-                activeComponent === 'news' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-300'
-              }`}
-              onClick={() => handleComponentChange('news')}
-            >
-              News and Updates
-            </button>
-            <div className="flex flex-row justify-between items-center space-x-4 py-2 sm:py-0">
-            <button
-              className={`px-4 py-2 rounded-lg ${
-                activeComponent === 'display' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-300'
-              }`}
-              onClick={() => handleComponentChange('display')}
-            >
-              Latest Sightings
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg ${
-                activeComponent === 'submit' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-300'
-              }`}
-              onClick={() => handleComponentChange('submit')}
-            >
-              Submit Sighting
-            </button>
-            </div>
-            <button
-              className={`px-4 py-2 rounded-lg ${
-                activeComponent === 'resources' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-300'
-              }`}
-              onClick={() => handleComponentChange('resources')}
-            >
-              Resources
-            </button>
-          </div>
+        <div className="bg-[#e8e9ff] flex flex-col w-[90%] my-4 pb-1 pt-2 rounded-[50px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
+        <div className="hidden md:flex items-center justify-center text-center w-[95%] h-[65px] rounded-[240px] overflow-hidden ">
+      <MobileMenu  onLogin={handleLogin} onLogout={handleLogout} handleComponentChange={handleComponentChange} />
+      </div>
 
           {activeComponent === 'news' && <News />}
           {activeComponent === 'resources' && <Resources />}
@@ -153,8 +115,9 @@ function App() {
       <div>
         <Footer />
       </div>
-
+      <div className="w-screen h-[65px] sm:h-[10vw] md:hidden sticky bottom-0 left-0 z-10">
       <MobileMenu  onLogin={handleLogin} onLogout={handleLogout} handleComponentChange={handleComponentChange} />
+      </div>
 
     </div>
   );
@@ -165,17 +128,23 @@ export default App;
 
 
 const MobileMenu = ({ onLogin, onLogout, handleComponentChange}) => {
-  const showLogin = true;
 
 
-  //will need to create function above sent down
-  const handleUserSelection = (component) => {
+  //transfers props to change pages
+  const handleUserSelection = async (component) => {
     handleComponentChange(component);
   };
+  const handleUserLogin = async (login) => {
+    onLogin(login);
+  };
+  const handleUserLogout = async (logout) => {
+    onLogout(logout);
+  };
 
+  //it's possible to change the grid with "flex flex-col-reverse" and acheive a layout where the account is at the top. This could be used to create a desktop display with the same menu
   return(
 
-    <div className="w-screen h-[65px] sm:h-[10vw] lg:hidden bg-[#282c34] sticky bottom-0 left-0 z-10 grid grid-cols-5 divide-x border-t-2 text-white text-xs">
+    <div className="w-full h-full bg-[#282c34] grid grid-cols-5 divide-x border-t-2 md:border-t-0 md:border-0 text-[#e8e9ff] text-xs">
       {/* Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. */}
       <button className="flex flex-col items-center" onClick={() => handleComponentChange('news')}>
       <div className="h-full flex flex-col items-center justify-center">      
@@ -202,22 +171,13 @@ const MobileMenu = ({ onLogin, onLogout, handleComponentChange}) => {
       </div>
       </button>
             {/* Needs a ternary to display icon depending on !loggedIn value */}
-      <button className="flex flex-col items-center">
+      
       <div className="h-full flex flex-col items-center justify-center">
-      {showLogin &&
-          <div className="h-full flex flex-col items-center justify-center">
-          <svg height="2em" viewBox="0 0 512 512">
-    <style>{`svg {fill: #ffffff;}`}</style><path d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" /></svg>
-      Account
-        </div>}
-        {!showLogin &&
-          <div className="h-full flex flex-col items-center justify-center">
-          <svg height="2em" viewBox="0 0 512 512">
-    <style>{`svg {fill: #ffffff;}`}</style><path d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" /></svg>
-      Login
-        </div>}
+
+      <Auth  onLogin={handleUserLogin} onLogout={handleUserLogout} />
+
       </div>
-      </button>
+      
     </div>
     
 
