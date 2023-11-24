@@ -1,6 +1,7 @@
 {
     "short_name": "WhaleWatch",
     "name": "Whale Watch NZ",
+    "custom_identifier": "WWNZPWA",
     "icons": [
       {
         "src": "blue-whale-icon.png",
