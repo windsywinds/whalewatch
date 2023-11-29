@@ -10,7 +10,7 @@ import { initializeFirebaseMessaging } from './firebaseMessaging';
 import guestIcon from '../assets/user-icon.svg'
 import mailIcon from '../assets/mail-icon.svg'
 
-export const Auth = ({ onLogin, onLogout }) => {
+export const Auth = () => {
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -38,7 +38,8 @@ export const Auth = ({ onLogin, onLogout }) => {
       if (user) {
         await sendEmailVerification(user);
       }
-      onLogin();
+      setLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
     } catch (error) {
       console.error(error);
     }
@@ -54,7 +55,8 @@ const signInWithEmail = async () => {
     // Check if the user exists and the credentials are correct
     if (user) {
       // Call the onLogin() method to handle the successful login
-      onLogin();
+      setLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
     } else {
       console.log('Invalid credentials');
     }
@@ -67,7 +69,8 @@ const signInWithEmail = async () => {
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      onLogin();
+      setLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
     } catch (error) {
       console.error(error);
     }
@@ -76,7 +79,8 @@ const signInWithEmail = async () => {
   const signAnon = async () => {
     try {
       await signInAnonymously(auth);
-      onLogin();
+      setLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
       setShowDropdown(false)
     } catch (error) {
       console.error(error);
@@ -86,8 +90,9 @@ const signInWithEmail = async () => {
   const logout = async () => {
     try {
       await signOut(auth);
-      onLogout();
-      setShowDropdown(false);
+      setLoggedIn(false);
+      localStorage.setItem('isLoggedIn', 'false');
+      setShowUserPage(false);
     } catch (error) {
       console.error(error);
     }
@@ -208,18 +213,18 @@ const signInWithEmail = async () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      {loggedIn &&
+      {loggedIn ? (
       <button className="w-full h-full flex flex-col items-center"  onClick={() => {setShowUserPage(!showUserPage)}}>
           <div className="h-full flex flex-col items-center justify-center">
           <svg height="2em" viewBox="0 0 512 512">
             <style>{`svg {fill: #ffffff;}`}</style><path d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" /></svg>
-      Account {showUserPage && <AccountPage handleOnLogout={handleOnLogout} />
+      Account {showUserPage && <AccountPage handleOnLogout={logout} />
       
       
       }
             </div>
-          </button>}
-        {!loggedIn &&
+          </button> ) : (
+        
         <button className="w-full h-full  flex flex-col items-center" onClick={() => {setShowDropdown(!showDropdown)}}>        
           <div className="h-full flex flex-col items-center justify-center">
           <svg height="2em" viewBox="0 0 512 512">
@@ -227,7 +232,7 @@ const signInWithEmail = async () => {
       Login
         </div>
         </button>
-      }
+      )}
 
           {showDropdown && (
             <div className="fixed inset-0 flex justify-center items-center bg-slate-900 bg-opacity-95 text-black">
@@ -294,6 +299,7 @@ const signInWithEmail = async () => {
             </div>
           </div>
           
+          
             
           )}
         
@@ -309,7 +315,6 @@ const AccountPage = ({handleOnLogout} ) => {
     try {
       await signOut(auth);
       handleOnLogout();
-      window.location.reload();
     } catch (error) {
       console.error("AP Handle Logout:", error);
     }

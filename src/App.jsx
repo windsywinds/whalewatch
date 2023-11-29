@@ -54,10 +54,14 @@ function App() {
 
   //check if user is logged in
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem('isLoggedIn');
-    if (loggedInStatus === 'true') {
-      setIsLoggedIn(true);
-    }
+
+    const handleStorageChange = () => {
+      setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleLogin = async () => {
@@ -91,18 +95,20 @@ function App() {
 
         <div className="bg-[#e8e9ff] flex flex-col w-[90%] my-4 pb-1 pt-2 rounded-[50px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
         <div className="hidden md:flex items-center justify-center text-center w-[95%] h-[65px] rounded-[240px] overflow-hidden ">
-      <MobileMenu  onLogin={handleLogin} onLogout={handleLogout} handleComponentChange={handleComponentChange} />
+      <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
 
           {activeComponent === 'news' && <News />}
           {activeComponent === 'resources' && <Resources />}
           {activeComponent === 'display' && <Display />}
-          {activeComponent === 'submit' && !isLoggedIn && (
+          {activeComponent === 'submit' && localStorage.getItem('isLoggedIn') === 'false' ? (
             <div className="flex items-center justify-center text-center pb-2">
               <p className="py-10">You need to login to submit a sighting!</p>
             </div>
+          ) : (
+            activeComponent === 'submit' && localStorage.getItem('isLoggedIn') === 'true' && <SubmitSightings />
           )}
-          {activeComponent === 'submit' && isLoggedIn && <SubmitSightings />}
+          
         </div>
         <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-2xl my-4 shadow-lg shadow-slate-800">
           <AboutDropdown />
@@ -116,7 +122,7 @@ function App() {
         <Footer />
       </div>
       <div className="w-screen h-[65px] sm:h-[10vw] md:hidden sticky bottom-0 left-0 z-10">
-      <MobileMenu  onLogin={handleLogin} onLogout={handleLogout} handleComponentChange={handleComponentChange} />
+      <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
 
     </div>
@@ -127,19 +133,9 @@ export default App;
 
 
 
-const MobileMenu = ({ onLogin, onLogout, handleComponentChange}) => {
+const MobileMenu = ({handleComponentChange}) => {
 
 
-  //transfers props to change pages
-  const handleUserSelection = async (component) => {
-    handleComponentChange(component);
-  };
-  const handleUserLogin = async (login) => {
-    onLogin(login);
-  };
-  const handleUserLogout = async (logout) => {
-    onLogout(logout);
-  };
 
   //it's possible to change the grid with "flex flex-col-reverse" and acheive a layout where the account is at the top. This could be used to create a desktop display with the same menu
   return(
@@ -174,7 +170,7 @@ const MobileMenu = ({ onLogin, onLogout, handleComponentChange}) => {
       
       <div className="h-full flex flex-col items-center justify-center">
 
-      <Auth  onLogin={handleUserLogin} onLogout={handleUserLogout} />
+      <Auth />
 
       </div>
       
