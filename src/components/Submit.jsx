@@ -27,7 +27,6 @@ export const SubmitSightings = () => {
       };
       const currentTime = currentDateTime.toLocaleString("en-NZ", options);
       setCurrentTime(currentTime);
-      console.log(currentTime);
     };
 
     getCurrentTime();
@@ -45,25 +44,6 @@ export const SubmitSightings = () => {
     };
   }, []);
 
-  const handleGeolocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLatitude(latitude.toFixed(6));
-          setLongitude(longitude.toFixed(6));
-          setFormError("");
-        },
-        (error) => {
-          console.error("Error getting GPS location:", error);
-          setFormError("Failed to retrieve GPS location. Please enable location services.");
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-      setFormError("Geolocation is not supported by this browser. Please enable location services.");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,6 +126,7 @@ let marker = new mapboxgl.Marker({ color: 'blue'});
 
 map.on('load', () => {
   map.addControl(new mapboxgl.NavigationControl());
+  
 
   // Retrieve user's location
   if (navigator.geolocation) {
@@ -172,7 +153,7 @@ map.on('load', () => {
     );
   } else {
     console.error("Geolocation is not supported by this browser.");
-    setFormError("Geolocation is not supported by this browser. Please enable location services.");
+    setFormError("Geolocation is not supported on this device, or location services are turned off.");
   }
 });
 
