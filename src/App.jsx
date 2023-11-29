@@ -45,7 +45,7 @@ function App() {
       setdeviceStyles("hidden");
     } else {
       // It's likely a browser
-      setdeviceStyles("bg-[#e8e9ff] w-[90%] my-4 pb-2 rounded-2xl shadow-lg shadow-slate-800");
+      setdeviceStyles("bg-[#e8e9ff] w-screen pb-2 rounded-b-[50px] shadow-lg shadow-slate-800 ");
     }
   }, []);
 
@@ -81,11 +81,11 @@ function App() {
 
   return (
     <div className="bg-[#0b0f51] text-stone-800 min-h-screen font-inter flex flex-col items-center">
-      <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-screen justify-between">
+      <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-screen justify-between z-10">
         </div>
 
         <div className={deviceStyles} >
-        <div className="flex flex-row font-bold pb-4 pt-5 items-center justify-center">
+        <div className="flex flex-row font-bold pb-4 pt-12 items-center justify-center">
           <p className="font-bold text-3xl underline">Whale Watch NZ </p>
           
         </div>
@@ -93,8 +93,8 @@ function App() {
 
 
 
-        <div className="bg-[#e8e9ff] flex flex-col w-screen md:w-[90%] my-4 pb-1 pt-2 rounded-[50px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
-        <div className="hidden md:flex items-center justify-center text-center w-[95%] h-[65px] rounded-[240px] overflow-hidden ">
+        <div className="bg-[#e8e9ff] flex flex-col w-screen md:w-[90%] my-4 pb-1 pt-2 rounded-[65px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
+        <div className="hidden md:flex items-center justify-center text-center w-[90%] h-[65px] rounded-[240px] overflow-hidden ">
       <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
 
@@ -110,11 +110,11 @@ function App() {
           )}
           
         </div>
-        <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-2xl my-4 shadow-lg shadow-slate-800">
+        <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-[30px] my-4 shadow-lg shadow-slate-800">
           <AboutDropdown />
         </div>
 
-        <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-2xl my-4 shadow-lg shadow-slate-800">
+        <div className="bg-[#e8e9ff] w-[90%] my-4 pb-1 pt-2 rounded-[30px] my-4 shadow-lg shadow-slate-800">
           <FeedbackDropdown />
         </div>
       
