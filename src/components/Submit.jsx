@@ -141,40 +141,52 @@ export const SubmitSightings = () => {
       setRegion(region ? region.text : 'Unknown');
     };
 
-    map.on('load', () => {
-      map.addControl(new mapboxgl.NavigationControl());
+    // Create a marker variable
+let marker = new mapboxgl.Marker({ color: 'blue'});
 
-      // Retrieve user's location
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setLatitude(latitude.toFixed(6));
-            setLongitude(longitude.toFixed(6));
-            setFormError("");
+map.on('load', () => {
+  map.addControl(new mapboxgl.NavigationControl());
 
-            // Set map center to user's location
-            map.setCenter([longitude, latitude]);
-            map.setZoom(12);
-            reverseGeocode([longitude, latitude]);
-          },
-          (error) => {
-            console.error("Error getting GPS location:", error);
-            setFormError("Failed to retrieve GPS location. Please enable location services.");
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-        setFormError("Geolocation is not supported by this browser. Please enable location services.");
+  // Retrieve user's location
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLatitude(latitude.toFixed(6));
+        setLongitude(longitude.toFixed(6));
+        setFormError("");
+
+        // Set map center to user's location
+        map.setCenter([longitude, latitude]);
+        map.setZoom(12);
+
+        // Update the marker with the user's location
+        marker.setLngLat([longitude, latitude]).addTo(map);
+
+        reverseGeocode([longitude, latitude]);
+      },
+      (error) => {
+        console.error("Error getting GPS location:", error);
+        setFormError("Failed to retrieve GPS location. Please enable location services.");
       }
-    });
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+    setFormError("Geolocation is not supported by this browser. Please enable location services.");
+  }
+});
 
-    map.on('click', (e) => {
-      const { lng, lat } = e.lngLat;
-      setLatitude(lat.toFixed(6));
-      setLongitude(lng.toFixed(6));
-      reverseGeocode([lng, lat]);
-    });
+map.on('click', (e) => {
+  const { lng, lat } = e.lngLat;
+  setLatitude(lat.toFixed(6));
+  setLongitude(lng.toFixed(6));
+
+  // Update the marker with the clicked location
+  marker.setLngLat([lng, lat]).addTo(map);
+
+  reverseGeocode([lng, lat]);
+});
+
 
     return () => map.remove();
   }, []);
