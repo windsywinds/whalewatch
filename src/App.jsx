@@ -154,7 +154,7 @@ const MobileMenu = ({handleComponentChange}) => {
 
 
 
-  //it's possible to change the grid with "flex flex-col-reverse" and acheive a layout where the account is at the top. This could be used to create a desktop display with the same menu
+  //it's possible to change the grid with "flex flex-col-reverse" and acheive a layout where the account is at the top. This could be used to create a vertical desktop display with the same menu aligned to the left edge of the browser, allowing for a static menu and making the center of the screen contain a permanent page with a 'map' showing sightings and other information below it.
   return(
 
     <div className="w-full h-full bg-[#282c34] grid grid-cols-5 divide-x border-t-2 md:border-t-0 md:border-0 text-[#e8e9ff] text-xs">
