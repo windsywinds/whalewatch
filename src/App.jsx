@@ -17,13 +17,14 @@ function App() {
   const [activeComponent, setActiveComponent] = useState('display'); // Default active component
   const [deviceStyles, setdeviceStyles] = useState("hidden");
 
-  useEffect(() => {
-    if (Notification.permission === 'granted') {
-    //initializeFirebaseMessaging();
-    } else {
-      console.log("Permission denied")
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   if (Notification.permission === 'granted') {
+  //   //initializeFirebaseMessaging();
+  //   } else {
+  //     console.log("Permission denied")
+  //   }
+  // }, []); 
 
   const onSetAlertsButton = (e) => {
     e.preventDefault();
@@ -42,10 +43,20 @@ function App() {
     const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
     if (isStandalonePWA) {
       // Has app installed as PWA
+
+        //refresh on load, else mobile PWA uses cache data
+      window.addEventListener("visibilitychange", function () {
+        console.log("Visibility changed");
+        if (document.visibilityState === "visible") {
+          console.log("APP resumed");
+          window.location.reload();
+        }
+      });
+      //set css setyle
       setdeviceStyles("hidden");
     } else {
       // It's likely a browser
-      setdeviceStyles("bg-[#e8e9ff] w-screen pb-2 rounded-b-[50px] shadow-lg shadow-slate-800 ");
+      setdeviceStyles("bg-[#e8e9ff] w-full pb-2 rounded-b-[50px] shadow-lg shadow-slate-800 ");
     }
   }, []);
 
@@ -81,7 +92,7 @@ function App() {
 
   return (
     <div className="bg-[#0b0f51] text-stone-800 min-h-screen font-inter flex flex-col items-center">
-      <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-screen justify-between z-10">
+      <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-full justify-between z-10">
         </div>
 
         <div className={deviceStyles} >
@@ -93,7 +104,7 @@ function App() {
 
 
 
-        <div className="bg-[#e8e9ff] flex flex-col w-screen md:w-[90%] my-4 pb-1 pt-2 rounded-[65px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
+        <div className="bg-[#e8e9ff] flex flex-col w-full md:w-[90%] my-4 pb-1 pt-2 rounded-[65px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
         <div className="hidden md:flex items-center justify-center text-center w-[90%] h-[65px] rounded-[240px] overflow-hidden ">
       <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
@@ -121,7 +132,7 @@ function App() {
       <div>
         <Footer />
       </div>
-      <div className="w-screen h-[65px] sm:h-[10vw] md:hidden sticky bottom-0 left-0 z-10">
+      <div className="w-screen h-[65px] sm:h-[10vw] md:hidden fixed bottom-0 left-0 z-10">
       <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
 
@@ -134,7 +145,7 @@ export default App;
 
 
 const MobileMenu = ({handleComponentChange}) => {
-  const [activeComponent, setActiveComponent] = useState('displaylist');
+  const [activeComponent, setActiveComponent] = useState('display');
 
   const handleComponentSelect = (component) => {
     handleComponentChange(component);

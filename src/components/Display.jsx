@@ -64,8 +64,8 @@ export const Display = () => {
         </button>
       </div>
 
-      {activeComponent === 'displaylist' && <DisplayList sightingList={sightingList} />} {/* Pass the data as props */}
-      {activeComponent === 'displaymap' && <DisplayMap sightingList={sightingList} />} {/* Pass the data as props */}
+      {activeComponent === 'displaylist' && <DisplayList sightingList={sightingList} />} 
+      {activeComponent === 'displaymap' && <DisplayMap sightingList={sightingList} />} 
     </div>
   );
 };

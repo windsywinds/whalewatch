@@ -2,9 +2,20 @@
 
 function News() {
     return (
-        <div className="pb-4 pt-10 pl-10 pr-10 rounded-xl overflow-hidden ">
+        <div className="pb-4 pt-10  rounded-xl overflow-hidden w-[95%] md:w-[85%]">
 
             <div className="flex items-center justify-center flex-col text-center" >
+
+            <section className="pb-5">
+            <p className="text-sm mb-1 pt-2 font-bold">Release v2.0 - 8/12/2023</p>
+            <p className="text-sm mb-1 pt-1">Changes: </p>  
+            <p className="text-sm mb-1 pt-2">A better Layout! <br />
+            With the recent App install changes (See below for details), there has been an update in the layout.<br/> 
+            There is a new mobile layout consistent between the web and app, as well as updates to the desktop version with a better menu.
+             <br/>
+            More updates and changes still to come! Please be sure to let me know if you encounter any problems using the feedback section!
+            </p>
+            </section >
 
             <section className="pb-5">
             <p className="text-sm mb-1 pt-2 font-bold">Release v1.6 - 24/11/2023</p>
