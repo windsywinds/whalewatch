@@ -45,6 +45,7 @@ export const Auth = () => {
       }
       setLoggedIn(true);
       localStorage.setItem('isLoggedIn', 'true');
+      setShowDropdown(false)
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +63,7 @@ const signInWithEmail = async () => {
       // Call the onLogin() method to handle the successful login
       setLoggedIn(true);
       localStorage.setItem('isLoggedIn', 'true');
+      setShowDropdown(false)
     } else {
       console.log('Invalid credentials');
     }
@@ -76,6 +78,7 @@ const signInWithEmail = async () => {
       await signInWithPopup(auth, googleProvider);
       setLoggedIn(true);
       localStorage.setItem('isLoggedIn', 'true');
+      setShowDropdown(false)
     } catch (error) {
       console.error(error);
     }
@@ -97,7 +100,7 @@ const signInWithEmail = async () => {
       await signOut(auth);
       setLoggedIn(false);
       localStorage.setItem('isLoggedIn', 'false');
-      window.top.location = window.top.location
+      window.top.location = window.top.location //refresh html only
 
       setShowUserPage(false);
     } catch (error) {

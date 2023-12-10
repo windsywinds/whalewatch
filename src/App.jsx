@@ -7,6 +7,12 @@ import { AboutDropdown } from './components/Dropdown';
 import { Footer } from './components/Footer';
 import News from './components/News';
 import Resources from './components/Resources'
+
+
+
+import OneSignalSetup from './components/functions/OneSignalSetup'; //oneSignal webpush components
+import OneSignal from 'react-onesignal';
+
 import { initializeFirebaseMessaging } from './components/firebaseMessaging';
 
 
@@ -16,34 +22,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeComponent, setActiveComponent] = useState('display'); // Default active component
   const [deviceStyles, setdeviceStyles] = useState("hidden");
+  const [isStandalonePWA, setIsStandAlone] = useState(false)
 
 
-  // useEffect(() => {
-  //   if (Notification.permission === 'granted') {
-  //   //initializeFirebaseMessaging();
-  //   } else {
-  //     console.log("Permission denied")
-  //   }
-  // }, []); 
-
-  const onSetAlertsButton = (e) => {
-    e.preventDefault();
-    if ('serviceWorker' in navigator) {
-      Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-          initializeFirebaseMessaging();
-        } else {
-          console.log("User denied permissions")
-        }
-      }) 
-  }}
 
   //will set CSS according to APP vs browser (App should not display title)
-  useEffect(() => {
-    const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
+  useEffect(() => {  
+
+
+    //const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
     if (isStandalonePWA) {
       // Has app installed as PWA
-
+      setIsStandAlone(true)
         //refresh on load, else mobile PWA uses cache data
       window.addEventListener("visibilitychange", function () {
         console.log("Visibility changed");
@@ -92,6 +82,7 @@ function App() {
 
   return (
     <div className="bg-[#0b0f51] text-stone-800 min-h-screen font-inter flex flex-col items-center">
+      
       <div className="bg-slate-500 h-[20vw] md:h-[10vw] bg-[url('./assets/flavio-GjKPTkhni6Y-unsplash.jpg')] bg-cover shadow-2xl shadow-black flex flex-col items-center w-full justify-between z-10">
         </div>
 

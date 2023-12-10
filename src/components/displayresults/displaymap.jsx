@@ -5,6 +5,7 @@ import { auth } from "../../firebase.config";
 const GREEN_COLOR_CLASS = "#10B981";
 const ORANGE_COLOR_CLASS = "#F59E0B";
 const RED_COLOR_CLASS = "#EF4444";
+const GRAY_COLOR_CLASS = "#cdcdcd";
 
 export const DisplayMap = ({ sightingList }) => {
   const mapContainerRef = useRef(null);
@@ -44,11 +45,11 @@ export const DisplayMap = ({ sightingList }) => {
 
     // Add pins to the map using the data from props (sightingList)
     const addPinsToMap = () => {
-      const sortedSightingList = [...sightingList].sort(
-        (a, b) => a.time.seconds - b.time.seconds //sort pins and display newest pins on top
-      );
+      const sortedSightingList = [...sightingList].slice(0, 10) //limit to latest 10 entries
 
-      sortedSightingList.forEach((sighting) => {
+
+      //reverse order so the first entry gets placed last, and will appear as top pin
+      sortedSightingList.reverse().forEach((sighting) => {
         const { latitude, longitude } = sighting.location;
         const currentTime = new Date().getTime();
         
@@ -56,16 +57,19 @@ export const DisplayMap = ({ sightingList }) => {
         const timeDifference = Math.floor(
           (new Date().getTime() - sightingTime.getTime()) / (1000 * 60)
         );
-        
 
-        let colorClass = RED_COLOR_CLASS;
+
+        let colorClass = GRAY_COLOR_CLASS;
         let sizeClass = 1;
 
         if (timeDifference <= 29) {
           colorClass = GREEN_COLOR_CLASS;
           sizeClass = 2;
-        } else if (timeDifference >= 30 && timeDifference <= 59) {
+        } else if (timeDifference >= 30 && timeDifference <= 59) {//0.5-1 hours
           colorClass = ORANGE_COLOR_CLASS;
+          sizeClass = 1;
+        } else if (timeDifference >= 60 && timeDifference <= 2880) { //1-48 hours
+          colorClass = RED_COLOR_CLASS;
           sizeClass = 1;
         }
 
