@@ -2,20 +2,12 @@ import { useState, useEffect } from 'react';
 import { Auth } from './components/auth';
 import { Display } from './components/Display';
 import { SubmitSightings } from './components/Submit';
-import { NewsDropdown, FeedbackDropdown } from './components/Dropdown';
-import { AboutDropdown } from './components/Dropdown';
+import { AboutDropdown, FeedbackDropdown } from './components/Dropdown';
 import { Footer } from './components/Footer';
 import News from './components/News';
 import Resources from './components/Resources'
 
-
-
-import OneSignalSetup from './components/functions/OneSignalSetup'; //oneSignal webpush components
-import OneSignal from 'react-onesignal';
-
-import { initializeFirebaseMessaging } from './components/firebaseMessaging';
-
-
+import { getMessaging, getToken } from "firebase/messaging";
 
 
 function App() {
@@ -25,6 +17,52 @@ function App() {
   const [isStandalonePWA, setIsStandAlone] = useState(false)
 
 
+  //Firebase messaging working to ios! moved to functions dir 
+
+  // const handleFirebase = async () => {
+  //   try {
+  //     console.log('Requesting permission...');
+  //     const permission = await Notification.requestPermission();
+  //     if (permission === 'granted') {
+  //       console.log('Notification permission granted.');
+  //       if ('serviceWorker' in navigator) {
+  //         try {
+  //           const registration = await navigator.serviceWorker.register('./../firebase-messaging-sw.js');
+  //           console.log('Service Worker registered:', registration);
+  //         } catch (error) {
+  //           console.error('Service Worker registration failed:', error);
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Firebase error:', error);
+  //   }
+  // };
+  
+  // const handleButtonClick = () => {
+  //   handleFirebase();
+  // };
+
+  // const getTokenAndSubscribe = async () => {
+  //   const messaging = getMessaging();
+  //     getToken(messaging, { vapidKey: 'BDYyM6PdInPUjlyK_0VoeK9KL5W1AItdVkiBMq5f8I5yvFN_RHFjRz7mX4ahAfXb4MuXh68KUXvvvhdubLIbdao' }).then((currentToken) => {
+  //       if (currentToken) {
+  //         console.log('Device Token:', currentToken);
+  //       } else {
+  //         // Show permission request UI
+  //         console.log('No registration token available. Request permission to generate one.');
+  //         // ...
+  //       }
+  //     }).catch((err) => {
+  //       console.log('An error occurred while retrieving token. ', err);
+  //       // ...
+  //     });
+  // };
+
+
+
+
+
 
   //Identifying if user is using browser or PWA standalone
   useEffect(() => { 
@@ -32,6 +70,7 @@ function App() {
     const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
     if (isStandalonePWA) {
       // Has app installed as PWA
+      
       setIsStandAlone(true)
         //refresh on load, else mobile PWA uses cache data
       window.addEventListener("visibilitychange", function () {
@@ -95,6 +134,7 @@ function App() {
 
 
         <div className="bg-[#e8e9ff] flex flex-col w-full md:w-[90%] my-4 pb-1 pt-2 rounded-[65px] my-4 shadow-lg shadow-slate-800 items-center justify-center">
+          
         <div className="hidden md:flex items-center justify-center text-center w-[90%] h-[65px] rounded-[240px] overflow-hidden ">
       <MobileMenu handleComponentChange={handleComponentChange} />
       </div>
