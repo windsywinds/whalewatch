@@ -16,25 +16,40 @@ export const Display = () => {
     setActiveComponent(component);
   };
 
-  // Move the data retrieval logic to useEffect
   useEffect(() => {
     const getSightingList = async () => {
       try {
+        // Fetch data from the database
         const sightingsQuery = query(collection(db, "sightings"), orderBy("time", "desc"));
         const sightingsSnapshot = await getDocs(sightingsQuery);
         const combinedData = sightingsSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setSightingList(combinedData);
+        console.log("New Data Retrieved")
+        sessionStorage.setItem('sightingList', JSON.stringify(combinedData));
       } catch (error) {
         console.error(error);
       }
     };
-
-    const unsubscribe = onSnapshot(collection(db, "sightings"), () => {
+  
+    //set and use session storage to reduce reads on database
+    const storedSightingList = sessionStorage.getItem('sightingList');
+    if (storedSightingList) {
+      setSightingList(JSON.parse(storedSightingList));
+      console.log("Using local storage data");
+    } else {
+      console.log("Retrieving new data");
       getSightingList();
-    });
-
-    return () => unsubscribe();
+    }
+  
+    // Get new data if current data is odler than 5 minutes
+    const refreshInterval = setInterval(() => {
+      console.log("Refreshing data");
+      getSightingList();
+    }, 300000); // 300,000 = 5 minutes
+  
+    return () => clearInterval(refreshInterval);
   }, []);
+  
 
   return (
     <div className="rounded-md overflow-hidden pb-10">
