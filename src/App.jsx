@@ -26,11 +26,10 @@ function App() {
 
 
 
-  //will set CSS according to APP vs browser (App should not display title)
-  useEffect(() => {  
+  //Identifying if user is using browser or PWA standalone
+  useEffect(() => { 
 
-
-    //const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
+    const isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches;
     if (isStandalonePWA) {
       // Has app installed as PWA
       setIsStandAlone(true)
