@@ -7,6 +7,16 @@ function News() {
             <div className="flex items-center justify-center flex-col text-center" >
 
             <section className="pb-5">
+            <p className="text-sm mb-1 pt-2 font-bold">Release v3.0 - 03/01/2024</p>
+            <p className="text-sm mb-1 pt-1">Changes: </p>  
+            <p className="text-sm mb-1 pt-2">Push Notifications <br />
+            Push notifications can now be enabled for sightings up to 30km from the users location. Login with an email address and select the options menu. 
+             <br/>
+            With this change, the app is now available nation wide. The twitter account will only tweet for Wellington users for now during this period, but in future will be changed to tweet for every sighting as users will be able to subscribe to local alerts.
+            </p>
+            </section >
+
+            <section className="pb-5">
             <p className="text-sm mb-1 pt-2 font-bold">Release v2.0 - 8/12/2023</p>
             <p className="text-sm mb-1 pt-1">Changes: </p>  
             <p className="text-sm mb-1 pt-2">A better Layout! <br />

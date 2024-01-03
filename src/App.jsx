@@ -7,7 +7,9 @@ import { Footer } from './components/Footer';
 import News from './components/News';
 import Resources from './components/Resources'
 
+import { auth } from './firebase.config';
 
+const authUser = import.meta.env.VITE_AUTH_USER
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,7 +26,7 @@ function App() {
     const handleStandalonePWA = () => {
       setIsStandalone(true);
       setDeviceStyles('hidden');
-
+      localStorage.setItem('isPWA', 'true');
       let lastReloadTime = new Date().getTime();
 
       const handleVisibilityChange = () => {
@@ -103,6 +105,7 @@ function App() {
           
         </div>
         </div>
+        
 
 
 

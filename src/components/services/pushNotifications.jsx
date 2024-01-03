@@ -2,7 +2,11 @@ import { getMessaging, getToken, deleteToken, onMessage } from "firebase/messagi
 
 import { getAuth, onAuthStateChanged, updateProfile, deleteUser, } from "firebase/auth";
 import { doc, setDoc, getDoc, updateDoc, increment, collection, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase.config"; // Import your Firebase configuration
+import { db } from "../../firebase.config"; 
+
+//
+// This component accessess the vapid key and project keys
+//
 
 //register service worker to device
 export const requestAlerts = async () => {
@@ -15,12 +19,12 @@ export const requestAlerts = async () => {
         try {
           const firebaseConfig = encodeURIComponent(
             JSON.stringify({
-              apiKey: import.meta.env.VITE_API_KEY_WWING,
+              apiKey: import.meta.env.VITE_API_KEY,
               authDomain: import.meta.env.VITE_AUTH_DOMAIN,
               projectId: import.meta.env.VITE_PROJECT_ID,
               storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
               messagingSenderId: import.meta.env.VITE_MESSAGING_ID,
-              appId: import.meta.env.VITE_APP_ID_WWING,
+              appId: import.meta.env.VITE_APP_ID,
               measurementId: import.meta.env.VITE_MEASUREMENT_ID,
             })
           );
@@ -60,6 +64,7 @@ export const getTokenAndSubscribe = async (region, latitude, longitude, range) =
 
             if (userDoc.exists()) {
               await updateDoc(userDocRef, {
+                region: region,
                 registrationToken: currentToken,
                 alertSettings: {
                   region: region,
@@ -131,7 +136,7 @@ export const notificationUnsubscribe = async () => {
           // Remove "alertRegion" and "registrationToken" from the user document
           await updateDoc(userDocRef, {
             registrationToken: null,
-            alertRegion: null,
+            alertSettings: null,
           });
 
           // Delete the service worker's registration token

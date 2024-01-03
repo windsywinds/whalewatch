@@ -200,14 +200,7 @@ const signInWithEmail = async () => {
       if (user) {
         setLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
-        
-        // Check if the user already exists before calling submitUser
-        const lastLoginTime = localStorage.getItem('lastLogin');
-        if (!lastLoginTime || new Date() - new Date(lastLoginTime) >= 24 * 60 * 60 * 1000) {
-          
-          submitUser(user.uid, user.email);
-          localStorage.setItem('lastLogin', new Date().toISOString());
-        }
+        submitUser(user.uid, user.email);
         console.log('UserUID logged in:', user.uid);
       } else {
         setLoggedIn(false);
