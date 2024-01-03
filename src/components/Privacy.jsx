@@ -12,8 +12,8 @@ const Privacy = ({ onClose }) => {
           </div>
           <div className="text-center">
             <h1 className="font-bold pb-4">Privacy Policy for Whale Watch NZ</h1>  
-            <p>The short version? The only information about you we collect is your email address, which is used for the sole purpose of user authentication - i.e. to login.</p>
-            <p>This is securely stored on Google's database servers, and not held on our own servers or platforms.</p>
+            <p>The short version? The only personal information about you we collect is your email address, which is used for the sole purpose of user authentication - i.e. to login. We also store any device location you provide, but only if you enable alerts. This is so that we can determine the distance for any recent sightings and send a notification.</p>
+            <p>All data is securely stored on Google's database servers, and not held on our own servers or platforms.</p>
   
             <div className="text-left">
             <h1 className="pt-9">The longer version:</h1>

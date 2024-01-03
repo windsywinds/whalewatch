@@ -15,7 +15,11 @@ export const DisplayMap = ({ sightingList }) => {
   const [confirmedSightings, setConfirmedSightings] = useState([]);
 
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1Ijoid2luZHN5d2luZHMiLCJhIjoiY2xmbTY1N2R6MDh3YTQxcGk3MDR6emdzaCJ9.S25LVqE01kz3WrxWIjbrRA";
+    const mapBoundry = [
+      [164.134207, -47.566660], // Southwest coordinates 
+      [179.698107, -33.888934] // Northeast coordinates
+    ];
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -33,6 +37,7 @@ export const DisplayMap = ({ sightingList }) => {
             setLongitude(longitude.toFixed(6));
             map.setCenter([longitude, latitude]);
             map.setZoom(9);
+            map.setMaxBounds(mapBoundry);
           },
           (error) => {
             console.error("Error getting GPS location:", error);
@@ -45,7 +50,7 @@ export const DisplayMap = ({ sightingList }) => {
 
     // Add pins to the map using the data from props (sightingList)
     const addPinsToMap = () => {
-      const sortedSightingList = [...sightingList].slice(0, 10) //limit to latest 10 entries
+      const sortedSightingList = [...sightingList].slice(0, 20) //limit to latest 20 entries
 
 
       //reverse order so the first entry gets placed last, and will appear as top pin

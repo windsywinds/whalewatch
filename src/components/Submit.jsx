@@ -55,8 +55,8 @@ export const SubmitSightings = () => {
     }
 
     //restrict the regions in which the user can submit sightings
-    if (region != "Wellington") {
-      setFormError("Sorry, we only support sightings around the Wellington region for now!");
+    if (region === "Unknown") {
+      setFormError("Sorry, we're not able to identify this region, please check the location is correct.");
       return;
     }
   
@@ -91,8 +91,8 @@ export const SubmitSightings = () => {
       setCount(+1)
   
       console.log("Sighting submitted successfully!");
-      
-      window.location.reload(); //reload allows the sighting to appear immediatly for the user
+      localStorage.removeItem('sightingList'); //remove users current sighting data so their sighting is updated
+      window.location.reload(); //reload switches user to the 'display' component to view sightings
     } catch (error) {
       console.error("Error submitting sighting:", error);
     }
@@ -102,9 +102,12 @@ export const SubmitSightings = () => {
 
 
   useEffect(() => {
+    const mapBoundry = [
+      [164.134207, -47.566660], // Southwest coordinates 
+      [179.698107, -33.888934] // Northeast coordinates
+    ];
 
-    //mapbox API access - convert to ENV?
-    mapboxgl.accessToken = 'pk.eyJ1Ijoid2luZHN5d2luZHMiLCJhIjoiY2xmbTY1N2R6MDh3YTQxcGk3MDR6emdzaCJ9.S25LVqE01kz3WrxWIjbrRA';
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -143,6 +146,7 @@ map.on('load', () => {
 
         // Update the marker with the user's location
         marker.setLngLat([longitude, latitude]).addTo(map);
+        map.setMaxBounds(mapBoundry);
 
         reverseGeocode([longitude, latitude]);
       },
