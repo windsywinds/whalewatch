@@ -93,7 +93,7 @@ export const Display = () => {
           />
         </p>
         {showUpdateHelp && 
-        <p className="bg-yellow-200 rounded-xl drop-shadow-lg absolute transition-all ease-in-out duration-300 text-xs px-6 py-6" ref={helpRef}>The current sighting data will refresh every 5 minutes, and was lasted updated at {new Date(lastSightListUpdate).toLocaleString("en-NZ", {
+        <p className="bg-yellow-200 rounded-xl drop-shadow-lg absolute text-xs px-6 py-6" ref={helpRef}>The current sighting data will refresh every 5 minutes, and was lasted updated at {new Date(lastSightListUpdate).toLocaleString("en-NZ", {
           hour: "numeric",
           minute: "numeric"
         })}. </p>
@@ -102,7 +102,7 @@ export const Display = () => {
       }
       </div>
 
-      <div className="flex flex-row justify-evenly items-center space-x-4 py-6 sm:py-4">
+      <div className="flex flex-row justify-evenly items-center space-x-4 py-8 sm:py-4">
         <button
           className={`px-4 py-2 rounded-lg ${
             activeComponent === 'displaylist' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-blue-300'

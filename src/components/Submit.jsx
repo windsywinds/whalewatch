@@ -8,12 +8,17 @@ import mapboxgl from 'mapbox-gl';
 
 export const SubmitSightings = () => {
   const [type, setType] = useState("");
+  const [selectedSpecies, setSelectedSpecies] = useState("Species");
+  const [speciesOptions, setSpeciesOptions] = useState();
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [region, setRegion] = useState("Unknown"); //Sets 'Unknown' as default region, when app is ready for national coverage, handleSubmit can be updated to allow other regions
   const [currentTime, setCurrentTime] = useState("");
   const [count, setCount] = useState(1); //count is number of times a user has 'confirmed' sighting, default is 1 for submitter
   const [formError, setFormError] = useState("");
+
+
+
 
   useEffect(() => {
     const getCurrentTime = () => {
@@ -47,6 +52,11 @@ export const SubmitSightings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let species = selectedSpecies
+
+    if (selectedSpecies === "Species") {
+      species = "Unknown"
+    }
   
       //check all fields have been filled
     if (!type || !latitude || !longitude) {
@@ -66,8 +76,10 @@ export const SubmitSightings = () => {
         //define all the fields for the entry
       const newSighting = {
         type,
+        species,
         region,
         count,
+        firstSighted: new Date(),
         time: new Date(),
         location: {
           latitude: parseFloat(latitude),
@@ -84,6 +96,7 @@ export const SubmitSightings = () => {
 
   
       setType("");
+      setSelectedSpecies("");
       setLatitude("");
       setLongitude("");
       setRegion("");
@@ -175,6 +188,28 @@ map.on('click', (e) => {
 
     return () => map.remove();
   }, []);
+
+
+  
+  const whaleSpecies = ["Blue Whale", "Beaked Whale", "Bryde's Whale", "False Killer Whale", "Fin Whale", "Humpback", "Minke Whale", "Pilot Whale", "Southern right/tohorā", "Sperm Whale", "Toothed Whale", "Other Species"]
+  const dolphinSpecies = ["Bottle Nose", "Common dolphin", "Dusky", "Hector", "Maui", "Orca", "Other Species"]
+  const penguinSpecies = ["Fiordland crested penguin", "Little (blue) penguin", "Yellow-eyed penguin"]
+  
+  
+  //When user selects animal type, then set possible species options
+  useEffect(() => {
+    let selection = ''
+    if (type === "Whale") {
+      selection = whaleSpecies
+    }
+    if (type === "Dolphin") {
+      selection = dolphinSpecies
+    }
+    if (type === "Penguin") {
+      selection = penguinSpecies
+    }
+    setSpeciesOptions(selection)
+  }, [type])
   
 
   return (
@@ -208,6 +243,33 @@ map.on('click', (e) => {
                 <option value="Leopard Seal">Leopard Seal</option>
               </select>
             </div>
+            {type && speciesOptions ? (
+  <div className="md:mr-2 mb-2 md:mb-0 ">
+    <select
+      className="w-full md:w-auto px-2 py-2 bg-slate-300 rounded-xl"
+      placeholder="Select Animal SubType"
+      value={selectedSpecies}
+      onChange={(e) => setSelectedSpecies(e.target.value)}
+    >
+      <option value="Species" readOnly>Species</option>
+      <option value="Unknown">Unknown</option>
+
+      {speciesOptions.map((species) => (
+        <option key={species} value={species}>
+          {species}
+        </option>
+      ))}
+    </select>
+  </div>
+) : null}
+
+{type && type === "Whale" ? (
+  <div className="md:mr-2 mb-2 md:mb-0 text-xs">
+    <p>Looking for Orca? They're part of the dolphin family!</p>
+  </div>
+    ) : null}
+
+            
             
             <div className="justify-center items-center md:mr-2 mb-2 md:mb-0 ">  
             <input

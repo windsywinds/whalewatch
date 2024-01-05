@@ -14,6 +14,11 @@ export const AdminPanel = () => {
         localStorage.removeItem('sightingList');
         localStorage.removeItem('lastSightListUpdate');
     }
+    const removeLoginData = (e) => {
+      e.preventDefault()
+      localStorage.removeItem('lastLogin');
+      localStorage.removeItem('isLoggedIn');
+  }
 
     return(
       <div>
@@ -35,6 +40,11 @@ export const AdminPanel = () => {
             <button onClick={removeSightingData}
               className="py-4 px-4 bg-blue-500"
               >Remove Sighting Data</button>
+          </div>
+          <div>
+            <button onClick={removeLoginData}
+              className="py-4 px-4 bg-blue-500"
+              >Remove Login Data</button>
           </div>
         </div>
 

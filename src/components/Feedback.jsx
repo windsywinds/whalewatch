@@ -1,6 +1,6 @@
 
 
-function Feedback() {
+const Feedback = () => {
     return (
         <div className="pb-4 pt-10 pl-10 pr-10 rounded-xl overflow-hidden">
 

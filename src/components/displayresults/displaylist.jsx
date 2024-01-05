@@ -23,6 +23,8 @@ export const DisplayList = ({ sightingList }) => { // Receive data as props
   }, [sightingList]);
 
   const handleConfirmClick = async (sightingId) => {
+    const isConfirmed = window.confirm(`Please make sure you are currently viewing the animal when you confirm the sighting as this updates the time of the listing!`);
+              if (isConfirmed) {
     try {
       const sightingRef = doc(db, "sightings", sightingId);
       const sighting = sightingList.find((sighting) => sighting.id === sightingId);
@@ -49,7 +51,7 @@ export const DisplayList = ({ sightingList }) => { // Receive data as props
     } catch (error) {
       console.error(error);
     }
-  };
+  }}
   
   // Add the missing variable definition for filteredSightingList
   const filteredSightingList = selectedRegionFilter === "All"
@@ -122,7 +124,7 @@ export const DisplayList = ({ sightingList }) => { // Receive data as props
         <p className="md:hidden font-bold">Region:</p>
         <div className="px-4 md:py-2 py-0">{sighting.region && sighting.region}</div>
         <p className="md:hidden font-bold">Animal:</p>
-        <div className="px-4 md:py-2 py-0">{sighting.type}</div>
+        <div className="px-4 md:py-2 py-0">{sighting.type}{sighting.species && sighting.species != "Unknown" ? `,  ${sighting.species}` : null}</div>
         <p className="md:hidden font-bold">Time sighted:</p>
         <div className={`px-4 md:py-2 py-0 ${textColorClass}`}>{formattedTime}</div>
         <p className="md:hidden font-bold">Number of confirmations:</p>

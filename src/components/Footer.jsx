@@ -93,8 +93,8 @@ export const Footer = () => {
   
 			</div>
 <div className="flex flex-col pt-2 pb-4 items-center justify-center">
-  <a href="https://www.buymeacoffee.com/windsywinds">
-	<img className="h-[40px] w-[160px]" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"  />
+  <a href="https://www.buymeacoffee.com/windsywinds" target="_blank">
+	<img className="h-[40px] w-[160px]" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" />
 	
 	</a>
   </div>

@@ -1,6 +1,6 @@
 
 
-function News() {
+const News = () => {
     return (
         <div className="pb-4 pt-10  rounded-xl overflow-hidden w-[95%] md:w-[85%]">
 

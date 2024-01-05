@@ -18,7 +18,10 @@ export async function logout() {
     try {
       await signOut(auth);
       await notificationUnsubscribe() //unsubsribe from notifications
-      localStorage.setItem('isLoggedIn', 'false');    
+      localStorage.setItem('isLoggedIn', 'false');
+      localStorage.removeItem('lastLogin');
+      localStorage.removeItem('sightingList');
+      localStorage.removeItem('lastSightListUpdate');    
       window.top.location = window.top.location //refresh html only
     } catch (error) {
       console.error(error);

@@ -64,16 +64,16 @@ export const DisplayMap = ({ sightingList }) => {
         );
 
 
-        let colorClass = GRAY_COLOR_CLASS;
+        let colorClass = GRAY_COLOR_CLASS; //older than 24 hours
         let sizeClass = 1;
 
-        if (timeDifference <= 29) {
+        if (timeDifference <= 29) { //up to 29 minutes 
           colorClass = GREEN_COLOR_CLASS;
           sizeClass = 2;
         } else if (timeDifference >= 30 && timeDifference <= 59) {//0.5-1 hours
           colorClass = ORANGE_COLOR_CLASS;
           sizeClass = 1;
-        } else if (timeDifference >= 60 && timeDifference <= 2880) { //1-48 hours
+        } else if (timeDifference >= 60 && timeDifference <= 1440) { //1-24 hours
           colorClass = RED_COLOR_CLASS;
           sizeClass = 1;
         }
@@ -89,6 +89,7 @@ export const DisplayMap = ({ sightingList }) => {
     
         const popupContent = `
           <p><strong>Animal:</strong> ${sighting.type}</p>
+          ${sighting.species && sighting.species != "Unknown"  ? `<p><strong>Species:</strong> ${sighting.species}</p>` : ''}
           <p><strong>Region:</strong> ${sighting.region}</p>
           <p><strong>Time:</strong> ${formattedTime}</p>
           <p><strong>Sightings:</strong> ${sighting.count}</p>

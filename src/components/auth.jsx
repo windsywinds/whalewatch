@@ -8,91 +8,13 @@ import googleicon from '../assets/google.png';
 import guestIcon from '../assets/user-icon.svg'
 import mailIcon from '../assets/mail-icon.svg'
 
-import {AccountPage} from './Account'
+import { AccountPage } from './Account'
 
-const authUser = import.meta.env.VITE_AUTH_USER
+
 
 import { logout } from './services/logout';
 
-//if the user does not exist in the database, create an entry for them to track logins and submissions 
-  //if they do exist, add to "timesLoggedIn" count to track the number of times the user has logged into the website
-  //and update any localStorage data such as alert regions
-  export const submitUser = async (userUID, email) => {
-    const currentTime = new Date()
-    const lastLoginTime = localStorage.getItem('lastLogin');
-    if (!lastLoginTime || currentTime - new Date(lastLoginTime) >= 24 * 60 * 60 * 1000) {
-      console.log('Last Login greater than 24hours, logging user:', userUID);
-      try {
-        const userCollection = email ? 'whaleUsers' : 'whaleGuests';
-        const userRef = collection(db, userCollection);
-        const querySnapshot = await getDocs(query(userRef, where('userUID', '==', userUID)));
-    
-        let userExists = false;
-        let userDocId = null;
-        let alertsRegion = null;
-    
-        querySnapshot.forEach((doc) => {
-          userExists = true;
-          userDocId = doc.id;
-  
-          //if user has previously set an alertRegion, set this to local storage
-          const userData = doc.data();
-          if (userData.alertRegion && userData.alertRegion !== null) {
-            alertsRegion = userData.alertRegion;
-            console.log('User alertRegion found:', alertsRegion);
-            localStorage.setItem('alertSettings', alertsRegion);
-          }
-          
-        });
-    
-        if (userExists) {
-          const userDocRef = doc(db, userCollection, userDocId);
-          const userDoc = await getDoc(userDocRef);
-          const userData = userDoc.data();
-    
-          if (email && userData.email !== email && userData.altEmail !== email) {
-            await updateDoc(userDocRef, {
-              altEmail: email,
-              lastLoggedIn: new Date(),
-            });
-          }
-    
-          if (userUID && userData.userUID === userUID) {
-            await updateDoc(userDocRef, {
-              timesLoggedIn: (userData.timesLoggedIn || 0) + 1,
-              lastLoggedIn: new Date(),
-            });
-          }
-  
-        } else {
-          if (email) {
-            const docRef = doc(db, userCollection, email);
-            const docSnap = await getDoc(docRef);
-    
-            if (!docSnap.exists()) {
-              await setDoc(docRef, {
-                userUID,
-                email,
-                lastLoggedIn: new Date(),
-              });
-            }
-          } else {
-            await addDoc(userRef, {
-              userUID,
-              lastLoggedIn: new Date(),
-            });
-          }
-        }
-        localStorage.setItem('lastLogin', currentTime.toISOString());
-        console.log('User logged successfully!', userUID);
-      } catch (error) {
-        console.error("Error with user login:", error);
-      }
-    } else {
-      console.log('Last Login less than 24hours, not logging user:', userUID);
-      return
-    }
-  };
+
 
 export const Auth = () => {
   const [email, setEmail] = useState(''); 
@@ -189,6 +111,86 @@ const signInWithEmail = async () => {
     }
   };
 
+  //if the user does not exist in the database, create an entry for them to track logins and submissions 
+  //if they do exist, add to "timesLoggedIn" count to track the number of times the user has logged into the website
+  //and update any localStorage data such as alert regions
+  const submitUser = async (userUID, email) => {
+    const currentTime = new Date()
+    const lastLoginTime = localStorage.getItem('lastLogin');
+    if (!lastLoginTime || currentTime - new Date(lastLoginTime) >= 24 * 60 * 60 * 1000) {
+      console.log('Last Login greater than 24hours, logging user:', userUID);
+      try {
+        const userCollection = email ? 'whaleUsers' : 'whaleGuests';
+        const userRef = collection(db, userCollection);
+        const querySnapshot = await getDocs(query(userRef, where('userUID', '==', userUID)));
+    
+        let userExists = false;
+        let userDocId = null;
+        let alertsRegion = null;
+    
+        querySnapshot.forEach((doc) => {
+          userExists = true;
+          userDocId = doc.id;
+  
+          //if user has previously set an alertRegion, set this to local storage
+          const userData = doc.data();
+          if (userData.alertRegion && userData.alertRegion !== null) {
+            alertsRegion = userData.alertRegion;
+            console.log('User alertRegion found:', alertsRegion);
+            localStorage.setItem('alertSettings', alertsRegion);
+          }
+          
+        });
+    
+        if (userExists) {
+          const userDocRef = doc(db, userCollection, userDocId);
+          const userDoc = await getDoc(userDocRef);
+          const userData = userDoc.data();
+    
+          if (email && userData.email !== email && userData.altEmail !== email) {
+            await updateDoc(userDocRef, {
+              altEmail: email,
+              lastLoggedIn: new Date(),
+            });
+          }
+    
+          if (userUID && userData.userUID === userUID) {
+            await updateDoc(userDocRef, {
+              timesLoggedIn: (userData.timesLoggedIn || 0) + 1,
+              lastLoggedIn: new Date(),
+            });
+          }
+  
+        } else {
+          if (email) {
+            const docRef = doc(db, userCollection, email);
+            const docSnap = await getDoc(docRef);
+    
+            if (!docSnap.exists()) {
+              await setDoc(docRef, {
+                userUID,
+                email,
+                lastLoggedIn: new Date(),
+              });
+            }
+          } else {
+            await addDoc(userRef, {
+              userUID,
+              lastLoggedIn: new Date(),
+            });
+          }
+        }
+        localStorage.setItem('lastLogin', currentTime.toISOString());
+        console.log('User logged successfully!', userUID);
+      } catch (error) {
+        console.error("Error with user login:", error);
+      }
+    } else {
+      console.log('Last Login less than 24hours, not logging user:', userUID);
+      return
+    }
+  };
+
   
   const checkAuthState = async () => {
     try {
@@ -277,9 +279,9 @@ const signInWithEmail = async () => {
                 <img src={googleicon} className="max-w-4 max-h-4 object-cover pr-2" alt="Google icon" /> Google
               </button>
               <p
-                className="w-full flex items-center pl-2 pr-2 py-4 bg-gray-300"
+                className="w-full flex items-center pl-2 pr-2 py-4 bg-gray-300 text-slate-400"
               >
-                <img src={fbicon} className="max-w-4 max-h-4 object-cover pr-2" alt="Facebook icon" /> Facebook
+                <img src={fbicon} className="max-w-4 max-h-4 object-cover pr-2 " alt="Facebook icon" /> Facebook (currently unavailable)
               </p>
               <button
                 className="w-full flex items-center pl-2 pr-2 py-4 hover:bg-gray-100"

@@ -12,7 +12,7 @@ import androidDots from '../assets/android-dots.svg'
 import { AdminPanel } from './services/adminPanel';
 const authUser = import.meta.env.VITE_AUTH_USER
 
-export const AccountPage = ( ) => {
+export const AccountPage = () => {
   const [alertsEnabaled, setAlertsEnabled] = useState(false)
   const [storedAlertSetting, setStoredAlertSetting] = useState();
   const [isPWA, setIsPWA] = useState(false);
@@ -81,7 +81,7 @@ useEffect(() => {
               <span className="underline">{storedAlertSetting}</span>&nbsp; region.
             </p>
             )}
-            {isPWA ? (<p className="flex w-full py-2 items-center justify-center">If you're having issues with alerts, please try disabling them, logging out, and then delete and reinstall the app to reset it. If problems persist, please get in touch using the feedback section. </p>
+            {isPWA ? (<p className="flex w-full py-2 items-center justify-center">If you're having issues with alerts, first try logging out and back in. Then try disabling them, logging out, and then delete and reinstall the app to reset it. If problems persist, please get in touch using the feedback section. </p>
             ) : (
               <div className="flex flex-col w-full">
               <p className="flex flex-row w-full py-2 items-center justify-center"> Push notificatons can be enabled here when using the app. </p>
@@ -402,51 +402,3 @@ export const SetUserAlertLocation = () => {
   )
 }
 
-
-export const AlertPanel = () => {
-  const [selectedRegion, setSelectedRegion] = useState("Select Region")
-
-
-    const onSetAlertsButton = async (e) => {
-      e.preventDefault()
-      if (selectedRegion === "Select Region") {
-        console.log("Please select a valid region");
-        return; // Prevent the form submission
-      }
-      try{ 
-        const confirmRegion = await getTokenAndSubscribe(selectedRegion);
-        console.log("Alerts set to token", confirmRegion)
-        setSelectedRegion("Select Region")
-      } catch (error) {
-        console.log("Error setting alerts:", error)
-      }
-
-    }
-
-    return(
-      <div className="flex flex-row gap-2">
-        <div>
-          
-          <div className="flex flex-row gap-2">
-            <form className="flex flex-row gap-6"
-              onSubmit={onSetAlertsButton}>
-            
-        <button
-                className="flex flex-row items-center justify-center whitespace-nowrap button-72 bg-blue-500 text-white hover:bg-blue-600 font-semibold rounded-xl py-2 px-4 transition-all duration-400 ease-in-out drop-shadow-sm shadow-sm shadow-slate-800 gap-2"> 
-                Set Alert Region
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. <path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"/></svg>
-          </button>
-          </form>
-          
-    </div>
-
-          
-          
-          
-        </div>
-
-        
-
-      </div>
-    )
-  }

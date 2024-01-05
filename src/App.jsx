@@ -7,7 +7,7 @@ import { Footer } from './components/Footer';
 import News from './components/News';
 import Resources from './components/Resources'
 
-import { auth } from './firebase.config';
+
 
 const authUser = import.meta.env.VITE_AUTH_USER
 
