@@ -6,6 +6,8 @@ import { updateDoc, doc } from 'firebase/firestore';
 import { DisplayList } from "./displayresults/displaylist";
 import { DisplayMap } from "./displayresults/displaymap";
 
+import { Sightings } from "./displayresults/Sightings";
+
 import helpIcon from '../assets/circle-question.svg'
 
 // This page will handle which version the user wants to display the results. 
