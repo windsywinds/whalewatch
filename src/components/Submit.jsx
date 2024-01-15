@@ -8,12 +8,17 @@ import mapboxgl from 'mapbox-gl';
 
 export const SubmitSightings = () => {
   const [type, setType] = useState("");
+  const [selectedSpecies, setSelectedSpecies] = useState("Species");
+  const [speciesOptions, setSpeciesOptions] = useState();
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [region, setRegion] = useState("Unknown"); //Sets 'Unknown' as default region, when app is ready for national coverage, handleSubmit can be updated to allow other regions
   const [currentTime, setCurrentTime] = useState("");
   const [count, setCount] = useState(1); //count is number of times a user has 'confirmed' sighting, default is 1 for submitter
   const [formError, setFormError] = useState("");
+
+
+
 
   useEffect(() => {
     const getCurrentTime = () => {
@@ -27,7 +32,6 @@ export const SubmitSightings = () => {
       };
       const currentTime = currentDateTime.toLocaleString("en-NZ", options);
       setCurrentTime(currentTime);
-      console.log(currentTime);
     };
 
     getCurrentTime();
@@ -45,28 +49,14 @@ export const SubmitSightings = () => {
     };
   }, []);
 
-  const handleGeolocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLatitude(latitude.toFixed(6));
-          setLongitude(longitude.toFixed(6));
-          setFormError("");
-        },
-        (error) => {
-          console.error("Error getting GPS location:", error);
-          setFormError("Failed to retrieve GPS location. Please enable location services.");
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-      setFormError("Geolocation is not supported by this browser. Please enable location services.");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let species = selectedSpecies
+
+    if (selectedSpecies === "Species") {
+      species = "Unknown"
+    }
   
       //check all fields have been filled
     if (!type || !latitude || !longitude) {
@@ -75,8 +65,8 @@ export const SubmitSightings = () => {
     }
 
     //restrict the regions in which the user can submit sightings
-    if (region != "Wellington") {
-      setFormError("Sorry, we only support sightings around the Wellington region for now!");
+    if (region === "Unknown") {
+      setFormError("Sorry, we're not able to identify this region, please check the location is correct.");
       return;
     }
   
@@ -86,8 +76,10 @@ export const SubmitSightings = () => {
         //define all the fields for the entry
       const newSighting = {
         type,
+        species,
         region,
         count,
+        firstSighted: new Date(),
         time: new Date(),
         location: {
           latitude: parseFloat(latitude),
@@ -104,6 +96,7 @@ export const SubmitSightings = () => {
 
   
       setType("");
+      setSelectedSpecies("");
       setLatitude("");
       setLongitude("");
       setRegion("");
@@ -111,8 +104,8 @@ export const SubmitSightings = () => {
       setCount(+1)
   
       console.log("Sighting submitted successfully!");
-      
-      window.location.reload(); //reload allows the sighting to appear immediatly for the user
+      localStorage.removeItem('sightingList'); //remove users current sighting data so their sighting is updated
+      window.location.reload(); //reload switches user to the 'display' component to view sightings
     } catch (error) {
       console.error("Error submitting sighting:", error);
     }
@@ -122,9 +115,12 @@ export const SubmitSightings = () => {
 
 
   useEffect(() => {
+    const mapBoundry = [
+      [164.134207, -47.566660], // Southwest coordinates 
+      [179.698107, -33.888934] // Northeast coordinates
+    ];
 
-    //mapbox API access - convert to ENV?
-    mapboxgl.accessToken = 'pk.eyJ1Ijoid2luZHN5d2luZHMiLCJhIjoiY2xmbTY1N2R6MDh3YTQxcGk3MDR6emdzaCJ9.S25LVqE01kz3WrxWIjbrRA';
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -141,43 +137,79 @@ export const SubmitSightings = () => {
       setRegion(region ? region.text : 'Unknown');
     };
 
-    map.on('load', () => {
-      map.addControl(new mapboxgl.NavigationControl());
+    // Create a marker variable
+let marker = new mapboxgl.Marker({ color: 'blue'});
 
-      // Retrieve user's location
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setLatitude(latitude.toFixed(6));
-            setLongitude(longitude.toFixed(6));
-            setFormError("");
+map.on('load', () => {
+  map.addControl(new mapboxgl.NavigationControl());
+  
 
-            // Set map center to user's location
-            map.setCenter([longitude, latitude]);
-            map.setZoom(12);
-            reverseGeocode([longitude, latitude]);
-          },
-          (error) => {
-            console.error("Error getting GPS location:", error);
-            setFormError("Failed to retrieve GPS location. Please enable location services.");
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-        setFormError("Geolocation is not supported by this browser. Please enable location services.");
+  // Retrieve user's location
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLatitude(latitude.toFixed(6));
+        setLongitude(longitude.toFixed(6));
+        setFormError("");
+
+        // Set map center to user's location
+        map.setCenter([longitude, latitude]);
+        map.setZoom(12);
+
+        // Update the marker with the user's location
+        marker.setLngLat([longitude, latitude]).addTo(map);
+        map.setMaxBounds(mapBoundry);
+
+        reverseGeocode([longitude, latitude]);
+      },
+      (error) => {
+        console.error("Error getting GPS location:", error);
+        setFormError("Failed to retrieve GPS location. Please enable location services.");
       }
-    });
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+    setFormError("Geolocation is not supported on this device, or location services are turned off.");
+  }
+});
 
-    map.on('click', (e) => {
-      const { lng, lat } = e.lngLat;
-      setLatitude(lat.toFixed(6));
-      setLongitude(lng.toFixed(6));
-      reverseGeocode([lng, lat]);
-    });
+map.on('click', (e) => {
+  const { lng, lat } = e.lngLat;
+  setLatitude(lat.toFixed(6));
+  setLongitude(lng.toFixed(6));
+
+  // Update the marker with the clicked location
+  marker.setLngLat([lng, lat]).addTo(map);
+
+  reverseGeocode([lng, lat]);
+});
+
 
     return () => map.remove();
   }, []);
+
+
+  
+  const whaleSpecies = ["Blue Whale", "Beaked Whale", "Bryde's Whale", "False Killer Whale", "Fin Whale", "Humpback", "Minke Whale", "Pilot Whale", "Southern right/tohorā", "Sperm Whale", "Toothed Whale", "Other Species"]
+  const dolphinSpecies = ["Bottle Nose", "Common dolphin", "Dusky", "Hector", "Maui", "Orca", "Other Species"]
+  const penguinSpecies = ["Fiordland crested penguin", "Little (blue) penguin", "Yellow-eyed penguin"]
+  
+  
+  //When user selects animal type, then set possible species options
+  useEffect(() => {
+    let selection = ''
+    if (type === "Whale") {
+      selection = whaleSpecies
+    }
+    if (type === "Dolphin") {
+      selection = dolphinSpecies
+    }
+    if (type === "Penguin") {
+      selection = penguinSpecies
+    }
+    setSpeciesOptions(selection)
+  }, [type])
   
 
   return (
@@ -191,9 +223,9 @@ export const SubmitSightings = () => {
 
       
 
-      <form className="w-full flex flex-col items-center justify-center" onSubmit={handleSubmit}>
-        <div className="flex flex-col md:flex-col px-2 items-center justify-center">
-          <div className="flex flex-col md:flex-row justify-center items-center my-2">
+      <form className="w-full flex flex-col items-center justify-center " onSubmit={handleSubmit}>
+        <div className="flex w-[85%] flex-col md:flex-col px-2 items-center justify-center ">
+          <div className="flex flex-col md:flex-row justify-center items-center my-2 ">
             
             
             <div className="md:mr-2 mb-2 md:mb-0 ">
@@ -211,6 +243,33 @@ export const SubmitSightings = () => {
                 <option value="Leopard Seal">Leopard Seal</option>
               </select>
             </div>
+            {type && speciesOptions ? (
+  <div className="md:mr-2 mb-2 md:mb-0 ">
+    <select
+      className="w-full md:w-auto px-2 py-2 bg-slate-300 rounded-xl"
+      placeholder="Select Animal SubType"
+      value={selectedSpecies}
+      onChange={(e) => setSelectedSpecies(e.target.value)}
+    >
+      <option value="Species" readOnly>Species</option>
+      <option value="Unknown">Unknown</option>
+
+      {speciesOptions.map((species) => (
+        <option key={species} value={species}>
+          {species}
+        </option>
+      ))}
+    </select>
+  </div>
+) : null}
+
+{type && type === "Whale" ? (
+  <div className="md:mr-2 mb-2 md:mb-0 text-xs">
+    <p>Looking for Orca? They're part of the dolphin family!</p>
+  </div>
+    ) : null}
+
+            
             
             <div className="justify-center items-center md:mr-2 mb-2 md:mb-0 ">  
             <input

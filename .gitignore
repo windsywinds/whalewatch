@@ -24,7 +24,11 @@ dist-ssr
 *.sw?
 *.bak
 src/firebase.config.jsx
-functions/index.js
+*_bak
 .env
 *.js
 
+# cloud functions files for handling alerts
+functions/index.js
+# moble service worker for PWA
+firebase-messaging-sw.js

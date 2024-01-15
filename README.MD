@@ -55,6 +55,7 @@ Users can follow @WhaleWatchNZ on twitter to receive notifications everytime a n
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[product-screenshot]: https://windsywinds.github.io/thumbnails/whalewatchthumb.jpg
 [vite-url]: https://vitejs.dev/
 [contributors-shield]: https://img.shields.io/github/contributors/windsywinds/whalewatch.svg?style=for-the-badge
 [contributors-url]: https://github.com/windsywinds/whalewatch/graphs/contributors
@@ -68,7 +69,6 @@ Users can follow @WhaleWatchNZ on twitter to receive notifications everytime a n
 [license-url]: https://github.com/windsywinds/whalewatch/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/windsor-sam/
-[product-screenshot]: https://windsywinds.github.io/assets/whalewatchthumb.jpg
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB

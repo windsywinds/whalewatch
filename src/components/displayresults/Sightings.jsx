@@ -2,12 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import { auth } from "../../firebase.config";
 
+
+
+import { PreviewCard } from "./components/previewCard";
+
+
 const GREEN_COLOR_CLASS = "#10B981";
 const ORANGE_COLOR_CLASS = "#F59E0B";
 const RED_COLOR_CLASS = "#EF4444";
 const GRAY_COLOR_CLASS = "#cdcdcd";
 
-export const DisplayMap = ({ sightingList }) => {
+export const Sightings = ({ sightingList }) => {
   const mapContainerRef = useRef(null);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
@@ -127,11 +132,42 @@ export const DisplayMap = ({ sightingList }) => {
     }
   }, [sightingList]);
 
+  
+  const handleRegionFilterSelection = (filter) => {
+    setSelectedRegionFilter(filter);
+  };
+  const filteredSightingList = selectedRegionFilter === "All"
+    ? [...sightingList.slice(0, 10)] // Limit to 10 entries
+    : sightingList.filter((sighting) => sighting.region === selectedRegionFilter).slice(0, 10); // Limit to 10 entries
+
   return (
-    <div>
-      <div className="flex h-[200px] md:h-[400px] justify-center ">
-        <div id="map" className="h-full border-slate-300 rounded-md border-4 w-[90%] " ref={mapContainerRef}></div>
+    <div className="flex flex-col h-full w-full">
+
+        <div className="flex flex-row sm:flex-row items-center space-y-0 space-x-2 my-4 mx-2">
+        <div className="py-2 px-2">
+          <select
+            value={selectedRegionFilter}
+            onChange={(e) => handleRegionFilterSelection(e.target.value)}
+            className="border border-slate-800 px-2 py-1 rounded-md"
+          >
+            <option value="All">All</option>
+            {[...new Set(sightingList.map((sighting) => sighting.region))].map((region) => (
+              <option key={region} value={region}>{region}</option>
+            ))}
+          </select>
+        </div>
       </div>
+
+        <div className="flex flex-row w-[95%] h-full">
+            <div className="flex flex-col h-full w-[50%] border-2 border-pink-500">
+            {filteredSightingList.map((sighting, index) => {
+    return <PreviewCard key={index} sighting={sighting} index={index} />;
+                })}
+            </div>
+          <div className="flex w-[50%] max-h-[500px] justify-center border-2 border-blue-500">
+            <div id="map" className="h-400px w-full border-slate-300 rounded-md border-4 " ref={mapContainerRef}></div>
+          </div>
+        </div>
     </div>
   );
 };

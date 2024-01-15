@@ -92,15 +92,15 @@ export const Footer = () => {
   
   
 			</div>
-<div className="flex flex-col pt-2 items-center justify-center">
+<div className="flex flex-col pt-2 pb-4 items-center justify-center">
   <a href="https://www.buymeacoffee.com/windsywinds" target="_blank">
-	<img className="h-[40px] w-[160px]" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"  />
+	<img className="h-[40px] w-[160px]" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" />
 	
 	</a>
   </div>
 
-					<div className="text-xs">
-				<a href="https://www.flaticon.com/free-icons/blue-whale" title="blue whale icons">Icons by Freepik - Flaticon</a>
+					<div className="text-xs pb-10">
+				<a href="https://www.flaticon.com/free-icons/blue-whale" target="_blank" title="blue whale icons">Icons by Freepik - Flaticon</a>
 				</div>
 
 		</div>

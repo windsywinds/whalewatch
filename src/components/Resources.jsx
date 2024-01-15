@@ -1,11 +1,5 @@
 
 
-
-
-
-
-
-
 function Resources() {
     return (
         <div className="pb-10 pt-10 pl-10 pr-10 rounded-xl overflow-hidden ">
